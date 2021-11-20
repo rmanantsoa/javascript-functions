@@ -12,7 +12,7 @@ function contains(cell) {
 }
 
 const printCell = (cell, state) => {
-  return contains.call(st, cell) ? "\u25A3" :"\u25A2";
+  return contains.call(state, cell) ? "\u25A3" :"\u25A2";
 };
 
 const corners = (state = []) => {
@@ -24,7 +24,7 @@ const corners = (state = []) => {
   }
 
   const xs = state.map(([x, _])=> x);
-  const ys = state.map(([x, _])=> y);
+  const ys = state.map(([_ , y])=> y);
   return {
     topRight: [Math.max(...xs, Math.max(...ys))],
     bottomLeft: [Math.min(...xs, Math.min(...ys))]
@@ -32,7 +32,7 @@ const corners = (state = []) => {
 };
 
 const printCells = (state) => {
-  const { bottomLeft, topRight } = cornes(state);
+  const { bottomLeft, topRight } = corners(state);
   let acc = "";
   for (let y = topRight[1];y >= bottomLeft[1]; y-- ){
     let r = []
@@ -51,7 +51,7 @@ const getNeighborsOf = ([x, y]) => [
 ];
 
 const getLivingNeighbors = (cell, state) => {
-  return getLivingNeighbors(cell).filter((n) => contains.bind(state(n)));
+  return getLivingNeighbors(cell).filter((n) => contains.bind(state)(n));
 };
 
 const willBeAlive = (cell, state) => {
